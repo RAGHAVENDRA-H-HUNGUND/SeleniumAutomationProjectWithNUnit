@@ -10,8 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestData.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestData\TestData.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.14.1" />
+    <PackageReference Include="EPPlus" Version="8.0.8" />
     <PackageReference Include="ExtentReports" Version="5.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="NUnit" Version="3.14.0" />
@@ -19,10 +30,19 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="Selenium.Support" Version="4.31.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.31.0" />
+    <PackageReference Include="SeleniumExtras.WaitHelpers" Version="1.0.2" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
+    <PackageReference Include="WebDriverManager" Version="2.17.6" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

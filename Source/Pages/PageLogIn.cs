@@ -1,10 +1,6 @@
 ﻿using OpenQA.Selenium;
-using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenQA.Selenium.Support.UI;
+using SeleniumAutomationProjectWithNUnit.Utilities;
 
 namespace SeleniumAutomationProjectWithNUnit.Source.Pages
 {
@@ -12,32 +8,47 @@ namespace SeleniumAutomationProjectWithNUnit.Source.Pages
     {
         private IWebDriver _driver;
 
-        [FindsBy(How = How.Name, Using = "username")]
-        private readonly IWebElement _username;
+        private IWebElement Username =>
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Name("username")));
 
-        [FindsBy(How = How.Name, Using = "password")]
-        private readonly IWebElement _password;
+        private IWebElement Password =>
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Name("password")));
 
-        [FindsBy(How = How.XPath, Using = "//button[@type='submit']")]
-        private readonly IWebElement _loginbtn;
+        private IWebElement Loginbtn =>
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[@type='submit']")));
 
-        //[FindsBy(How = How.XPath, Using = "//*[@name='username']/following::span")]
-        //private readonly IWebElement _usernamerequiredfieldmsg;
+        public IWebElement InvalidCredential =>
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//*[text()='Invalid credentials']")));
 
-        //[FindsBy(How = How.XPath, Using = "//*[@name='password']/following::span")]
-        //public string? _passwordrequiredfieldmsg;
+        public IWebElement UsernameRequiredFieldMsg =>
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//*[@name='username']/following::span")));
 
+        public IWebElement PasswordRequiredFieldMsg =>
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//*[@name='password']/following::span")));
+        
         public PageLogIn(IWebDriver driver)
         {
             _driver = driver;
-            PageFactory.InitElements(driver, this);
+        }
+
+        public void NavigateToLoginPage()
+        {
+            _driver.Navigate().GoToUrl(ConfigurationManager.BaseUrl);
         }
 
         public void LogIn(string userName, string password)
-        {
-            _username?.SendKeys(userName);
-            _password?.SendKeys(password);
-            _loginbtn?.Click();
+        {   
+            Username.Clear();
+            Username?.SendKeys(userName);
+            Password.Clear();
+            Password?.SendKeys(password);
+            Loginbtn?.Click();
         }
     }
 }
