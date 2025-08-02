@@ -19,15 +19,18 @@ namespace SeleniumAutomationProjectWithNUnit.Utilities
                 case BrowserType.Firefox:
                     new DriverManager().SetUpDriver(new FirefoxConfig());
                     driver = new FirefoxDriver();
+                    LogHelper.Info("Initializing FirefoxDriver.");
                     break;
                 case BrowserType.Edge:
                     new DriverManager().SetUpDriver(new EdgeConfig());
                     driver = new EdgeDriver();
+                    LogHelper.Info("Initializing EdgeDriver.");
                     break;
                 case BrowserType.Chrome:
                 default:
                     new DriverManager().SetUpDriver(new ChromeConfig());
                     driver = new ChromeDriver();
+                    LogHelper.Info("Initializing ChromeDriver.");
                     break;
             }
 

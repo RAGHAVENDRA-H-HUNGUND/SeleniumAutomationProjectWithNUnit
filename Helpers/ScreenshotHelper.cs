@@ -28,7 +28,7 @@ namespace SeleniumAutomationProjectWithNUnit.Helpers
 
             string filePath = Path.Combine(screenshotFolder, fileName);
             screenshot.SaveAsFile(filePath);
-
+            LogHelper.Info($"Screenshot saved: {filePath}");
             return filePath;
         }
 

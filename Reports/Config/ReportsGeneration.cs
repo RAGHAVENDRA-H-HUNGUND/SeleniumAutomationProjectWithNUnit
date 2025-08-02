@@ -21,6 +21,10 @@ namespace SeleniumAutomationProjectWithNUnit.Reports.Config
         [OneTimeSetUp]
         protected void Setup()
         {
+            string logFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reports", "Logs");
+            Directory.CreateDirectory(logFolder);
+            log4net.Config.XmlConfigurator.Configure(new FileInfo("log4net.config"));
+            LogHelper.Info("Test Suite Started");
             _extent = ExtentManager.GetExtent();
         }
 
@@ -33,6 +37,7 @@ namespace SeleniumAutomationProjectWithNUnit.Reports.Config
         [SetUp]
         public void BeforeTest()
         {
+            LogHelper.Info("SetUp: Starting browser setup.");
             _test.Value = _extent.CreateTest(TestContext.CurrentContext.Test.Name);
             driver = DriverFactory.GetDriver(_browser);
             string baseDirectory = TestContext.CurrentContext.TestDirectory;
@@ -69,7 +74,7 @@ namespace SeleniumAutomationProjectWithNUnit.Reports.Config
             _test.Value.Log(logstatus, $"Test ended with {logstatus}\n{stacktrace}\n{message}");
             _extent.Flush();
             driver.Quit();
- 
+            LogHelper.Info("TearDown: Cleaning up.");
         }        
     }
 }
