@@ -17,6 +17,7 @@ namespace SeleniumAutomationProjectWithNUnit.Reports.Config
         private BrowserType _browser = BrowserType.Chrome;
         public string excelPath;
         public List<Dictionary<string, string>> testData;
+        public DatabaseHelper dbHelper;
 
         [OneTimeSetUp]
         protected void Setup()
@@ -43,6 +44,8 @@ namespace SeleniumAutomationProjectWithNUnit.Reports.Config
             string baseDirectory = TestContext.CurrentContext.TestDirectory;
             excelPath = Path.Combine(baseDirectory, "TestData", "TestData.xlsx");
             testData = ExcelReader.ReadExcel(excelPath, "LoginData");
+            string connString = "Server=DESKTOP-9JI8POB\\SQLEXPRESS;Database=Raghu;Trusted_Connection=True;";
+            dbHelper = new DatabaseHelper(connString);
 
         }
 

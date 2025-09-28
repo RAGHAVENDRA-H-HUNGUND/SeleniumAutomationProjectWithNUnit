@@ -3,6 +3,7 @@ using SeleniumAutomationProjectWithNUnit.Helpers;
 using SeleniumAutomationProjectWithNUnit.Reports.Config;
 using SeleniumAutomationProjectWithNUnit.Source.Pages;
 using SeleniumAutomationProjectWithNUnit.Utilities;
+using System.Data;
 
 namespace SeleniumAutomationProjectWithNUnit.Tests
 {
@@ -16,6 +17,7 @@ namespace SeleniumAutomationProjectWithNUnit.Tests
         private PageDashboard dashboardPage;
         private readonly BrowserType _browser;
         public string username, password, expectedResult;
+        //private DatabaseHelper dbHelper;
 
         public TestLogIn(BrowserType browser)
         {
@@ -54,7 +56,8 @@ namespace SeleniumAutomationProjectWithNUnit.Tests
             pageLogin.NavigateToLoginPage();
             pageLogin.LogIn(username, password);
 
-            Assert.That(pageLogin.InvalidCredential.Text, Is.EqualTo(expectedResult));
+            //Assert.That(pageLogin.InvalidCredential.Text, Is.EqualTo(expectedResult));
+            pageLogin.AssertionWithActualExpectedResult(pageLogin.InvalidCredential.Text, expectedResult);
         }
 
         [Test]
@@ -67,8 +70,9 @@ namespace SeleniumAutomationProjectWithNUnit.Tests
             pageLogin = new PageLogIn(driver);          
             pageLogin.NavigateToLoginPage();
             pageLogin.LogIn(username, password);
-            
-            Assert.That(pageLogin.UsernameRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
+
+            //Assert.That(pageLogin.UsernameRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
+            pageLogin.AssertionWithActualExpectedResult(pageLogin.UsernameRequiredFieldMsg.Text, expectedResult);
         }
 
         [Test]
@@ -80,9 +84,10 @@ namespace SeleniumAutomationProjectWithNUnit.Tests
             pageLogin = new PageLogIn(driver);
             pageLogin.NavigateToLoginPage();
             pageLogin.LogIn(username, password);
-            
-            Assert.That(pageLogin.PasswordRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
-            
+
+            //Assert.That(pageLogin.PasswordRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
+            pageLogin.AssertionWithActualExpectedResult(pageLogin.PasswordRequiredFieldMsg.Text, expectedResult);
+
         }
 
         [Test]
@@ -98,23 +103,31 @@ namespace SeleniumAutomationProjectWithNUnit.Tests
             
             Assert.Multiple(() =>
             {
-                Assert.That(pageLogin.UsernameRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
-                Assert.That(pageLogin.PasswordRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
+                //Assert.That(pageLogin.UsernameRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
+                pageLogin.AssertionWithActualExpectedResult(pageLogin.UsernameRequiredFieldMsg.Text, expectedResult);
+                //Assert.That(pageLogin.PasswordRequiredFieldMsg.Text, Is.EqualTo(expectedResult));
+                pageLogin.AssertionWithActualExpectedResult(pageLogin.PasswordRequiredFieldMsg.Text, expectedResult);
             });
-            
+                        
         }
-
+        
         [Test]
         public void Login_With_Valid_Credentials()
         {
             username = testData[0]["UserName"];
             password = testData[0]["Password"];
+            //string query = "SELECT TOP 1 Username, Password FROM TestUsers";
+            //DataTable dt = dbHelper.ExecuteQuery(query);
+
+            //string username = dt.Rows[0]["Username"].ToString();
+            //string password = dt.Rows[0]["Password"].ToString();
 
             pageLogin = new PageLogIn(driver);
             pageLogin.NavigateToLoginPage();
             pageLogin.LogIn(username, password);
 
-            Assert.IsTrue(driver.Url.Contains("dashboard")); // Example assertion
+            //Assert.IsTrue(driver.Url.Contains("dashboard")); // Example assertion
+            pageLogin.AssertionWithContains(driver.Url.Contains("dashboard"));
         }
     }
 }
